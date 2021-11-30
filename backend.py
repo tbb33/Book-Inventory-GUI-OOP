@@ -7,34 +7,33 @@ class Database:
     #check if tbl exists)
     def __init__(self, db): #add self and db parameters
         conn = sqlite3.connect(db) #sends db param to connect method
-        cur = conn.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY, title TEXT, author TEXT, year INTEGER, isbn INTEGER )")
+        self.cur = conn.cursor()
+        self.cur.execute("CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY, title TEXT, author TEXT, year INTEGER, isbn INTEGER )")
         conn.commit()
-        conn.close()
 
     def add(self, title, author, year, isbn):
-        cur.execute("INSERT INTO book VALUES (NULL,?,?,?,?)",(title, author, year, isbn))
+        self.cur.execute("INSERT INTO book VALUES (NULL,?,?,?,?)",(title, author, year, isbn))
         conn.commit()
         conn.close()
 
     def view(self):
         self.cur.execute("SELECT * FROM book")
-        rows = cur.fetchall()
+        rows = self.cur.fetchall()
         conn.close()
         return rows
 
     def search(self, title="", author="", year="", isbn=""):
-        cur.execute("SELECT * FROM book WHERE title=? OR author=? or year=? or isbn=?",(title, author, year, isbn))
-        rows=cur.fetchall()
+        self.cur.execute("SELECT * FROM book WHERE title=? OR author=? or year=? or isbn=?",(title, author, year, isbn))
+        rows=self.cur.fetchall()
         conn.close()
         return rows
 
     def delete(self, id):
-        cur.execute("DELETE FROM book WHERE id=?",(id,))
+        self.cur.execute("DELETE FROM book WHERE id=?",(id,))
         conn.commit()
         conn.close()
 
     def update(self, id, title, author, year, isbn):
-        cur.execute("UPDATE book set title=?, author=?, year=?, isbn=? WHERE id=?",(title, author, year, isbn, id))
+        self.cur.execute("UPDATE book set title=?, author=?, year=?, isbn=? WHERE id=?",(title, author, year, isbn, id))
         conn.commit()
         conn.close()
