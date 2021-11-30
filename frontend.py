@@ -18,7 +18,7 @@ from backend import Database
 selected_tuple=()
 
 #create object from Database blueprint
-database=Database()
+database=Database("book.db")
 
 def get_selected_row(event):
     global selected_tuple
