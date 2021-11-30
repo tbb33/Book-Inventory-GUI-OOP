@@ -12,14 +12,14 @@ class Database:
         conn.commit()
         conn.close()
 
-    def add(title, author, year, isbn):
+    def add(self, title, author, year, isbn):
         conn = sqlite3.connect("book.db")
         cur = conn.cursor()
         cur.execute("INSERT INTO book VALUES (NULL,?,?,?,?)",(title, author, year, isbn))
         conn.commit()
         conn.close()
 
-    def view():
+    def view(self):
         conn = sqlite3.connect("book.db")
         cur = conn.cursor()
         cur.execute("SELECT * FROM book")
@@ -27,7 +27,7 @@ class Database:
         conn.close()
         return rows
 
-    def search(title="", author="", year="", isbn=""):
+    def search(self, title="", author="", year="", isbn=""):
         conn = sqlite3.connect("book.db")
         cur = conn.cursor()
         cur.execute("SELECT * FROM book WHERE title=? OR author=? or year=? or isbn=?",(title, author, year, isbn))
@@ -35,14 +35,14 @@ class Database:
         conn.close()
         return rows
 
-    def delete(id):
+    def delete(self, id):
         conn = sqlite3.connect("book.db")
         cur = conn.cursor()
         cur.execute("DELETE FROM book WHERE id=?",(id,))
         conn.commit()
         conn.close()
 
-    def update(id, title, author, year, isbn):
+    def update(self, id, title, author, year, isbn):
         conn = sqlite3.connect("book.db")
         cur = conn.cursor()
         cur.execute("UPDATE book set title=?, author=?, year=?, isbn=? WHERE id=?",(title, author, year, isbn, id))
