@@ -5,8 +5,8 @@ class Database:
     #function executes when class is called
     #initialize the  minimal object (est conn to db, create cursor obj,
     #check if tbl exists)
-    def __init__():
-        conn = sqlite3.connect("book.db")
+    def __init__(self, db): #add self and db parameters
+        conn = sqlite3.connect(db) #sends db param to connect method
         cur = conn.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY, title TEXT, author TEXT, year INTEGER, isbn INTEGER )")
         conn.commit()
