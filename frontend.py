@@ -13,15 +13,20 @@ close
 
 import tkinter
 from tkinter import *
-import backend
+#import Database class from backend script - Database blueprint
+from backend import Database
+selected_tuple=()
+
+#create object from Database blueprint
+database=Database()
 
 def get_selected_row(event):
     global selected_tuple
     try:
-        index = list.curselection()[0]
-        selected_tuple = list.get(index)
-        e1.delete(0,END)
-        e1.insert(END,selected_tuple[1]) #insert title to title entry widget
+        index = list.curselection()[0] #grabs 1st item form tuple;index of from listbox
+        selected_tuple = list.get(index) #gets tuple from listbox with specified index
+        e1.delete(0,END) #empty entry widget
+        e1.insert(END,selected_tuple[1]) #insert author to author entry widget
         e3.delete(0,END)
         e3.insert(END,selected_tuple[2]) #author
         e2.delete(0,END)
@@ -33,24 +38,25 @@ def get_selected_row(event):
 
 def view_command():
     list.delete(0,END)
-    for row in backend.view():
+    #refers to view func of database obj which is instance of Database class
+    for row in database.view():
         list.insert(END,row)
 
 def search_command():
     list.delete(0,END)
-    for row in backend.search(title_value.get(),author_value.get(),year_value.get(),isbn_value.get()):
+    for row in database.search(t_value.get(),a_value.get(),yr_value.get(),i_value.get()):
         list.insert(END,row)
 
 def add_command():
-    backend.add(title_value.get(),author_value.get(),year_value.get(),isbn_value.get())
+    database.add(t_value.get(),a_value.get(),yr_value.get(),i_value.get())
     list.delete(0,END)
-    list.insert(END, (title_value.get(),author_value.get(),year_value.get(),isbn_value.get()))
+    list.insert(END, (t_value.get(),a_value.get(),yr_value.get(),i_value.get()))
 
 def delete_command():
-    backend.delete(selected_tuple[0])
+    database.delete(selected_tuple[0])
 
 def update_command():
-    backend.update(selected_tuple[0], title_value.get(),author_value.get(),year_value.get(),isbn_value.get())
+    database.update(selected_tuple[0], t_value.get(), yr_value.get(), a_value.get(), i_value.get())
 
 window=Tk()
 window.title("Bookstore Inventory")
@@ -103,8 +109,7 @@ list.grid(row=2,column=0, rowspan=6, columnspan=2)
 s=Scrollbar(window)
 s.grid(row=3,column=2, rowspan=4, sticky='ns')
 list.configure(yscrollcommand=s.set)
-s.configure(command=list.yview)
-
+s.configure(command=list.yview) 
 list.bind('<<ListboxSelect>>', get_selected_row)
 
 window.mainloop()
