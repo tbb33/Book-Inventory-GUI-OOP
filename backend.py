@@ -18,7 +18,7 @@ class Database:
         conn.close()
 
     def view(self):
-        cur.execute("SELECT * FROM book")
+        self.cur.execute("SELECT * FROM book")
         rows = cur.fetchall()
         conn.close()
         return rows
