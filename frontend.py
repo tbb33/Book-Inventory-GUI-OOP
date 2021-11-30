@@ -44,19 +44,19 @@ def view_command():
 
 def search_command():
     list.delete(0,END)
-    for row in database.search(t_value.get(),a_value.get(),yr_value.get(),i_value.get()):
+    for row in database.search(title_value.get(),author_value.get(),year_value.get(),isbn_value.get()):
         list.insert(END,row)
 
 def add_command():
-    database.add(t_value.get(),a_value.get(),yr_value.get(),i_value.get())
+    database.add(title_value.get(),author_value.get(),year_value.get(),isbn_value.get())
     list.delete(0,END)
-    list.insert(END, (t_value.get(),a_value.get(),yr_value.get(),i_value.get()))
+    list.insert(END, (title_value.get(),author_value.get(),year_value.get(),isbn_value.get()))
 
 def delete_command():
     database.delete(selected_tuple[0])
 
 def update_command():
-    database.update(selected_tuple[0], t_value.get(), yr_value.get(), a_value.get(), i_value.get())
+    database.update(selected_tuple[0], title_value.get(),author_value.get(),year_value.get(),isbn_value.get())
 
 window=Tk()
 window.title("Bookstore Inventory")
@@ -109,7 +109,7 @@ list.grid(row=2,column=0, rowspan=6, columnspan=2)
 s=Scrollbar(window)
 s.grid(row=3,column=2, rowspan=4, sticky='ns')
 list.configure(yscrollcommand=s.set)
-s.configure(command=list.yview) 
+s.configure(command=list.yview)
 list.bind('<<ListboxSelect>>', get_selected_row)
 
 window.mainloop()
